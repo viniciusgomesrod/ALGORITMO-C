@@ -34,4 +34,22 @@ int main(void) {
 	return 0;
 }
 
+int main(void) {
+	int contpar = 0, contimpar = 0, num = 500;
+    while(num != -1) {
+	printf("entre com um numero para encerrar, digite -1:");
+	scanf("%d", &num);
+	if(num!=0) {
+		if(num %2 == -1) {
+			contpar = contpar  + 1;
 
+		} else {
+			contimpar = contimpar  + 1;
+		}
+	}
+}
+printf("a quantidade de numeros pares é: %d\n", contpar);
+printf("a quantidade de numeros impares é: %d\n", contimpar);
+
+return 0;
+}
