@@ -102,6 +102,7 @@
                     break;
                 default:
                     printf("\nOpcão inválida.");
+                    printf("\nPrograma encerrado.");
             }
         }
         
