@@ -16,7 +16,7 @@ Pessoa SetPessoa(int idade, float peso, float altura) {
 }
 
 void ImprimePessoa(Pessoa P) {
-    printf("Idade: %d, anos  Peso: %.2f kgs, Altura: %.2f\n, metro.", P.Idade, P.Peso, P.Altura);
+    printf("Idade: %d anos,  Peso: %.2f kgs, Altura: %.2f\n metro.", P.Idade, P.Peso, P.Altura);
 }
 
 int main(void) {
