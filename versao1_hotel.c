@@ -6,14 +6,14 @@
 typedef struct {
     int codigo;
     char nome[50];
-    char endereco[100];
-    char telefone[15];
+    char endereco[50];
+    int telefone;
 } Cliente;
 
 typedef struct {
     int codigo;
     char nome[50];
-    char telefone[15];
+    int telefone;
     char cargo[50];
     float salario;
 } Funcionario;
@@ -30,7 +30,7 @@ typedef struct {
 typedef struct {
     int numero_quarto;
     int quantidade_hospedes;
-    float valor_diaria;
+    int valor_diaria;
     char status[20];
 } Quarto;
 
@@ -48,7 +48,7 @@ void pesquisarEstadiasCliente();
 // Função principal
 int main() {
     int opcao;
-    
+
     do {
         printf("\nMenu:\n");
         printf("1. Cadastrar cliente\n");
@@ -99,7 +99,7 @@ int main() {
 void cadastrarCliente() {
     FILE *arquivo;
     Cliente novoCliente;
-    
+
     printf("Digite o código do cliente: ");
     scanf("%d", &novoCliente.codigo);
 
@@ -110,7 +110,7 @@ void cadastrarCliente() {
     scanf("%s", novoCliente.endereco);
 
     printf("Digite o telefone do cliente: ");
-    scanf("%s", novoCliente.telefone);
+    scanf("%d", &novoCliente.telefone);
 
     arquivo = fopen("clientes.txt", "a");
     if (arquivo == NULL) {
@@ -118,7 +118,10 @@ void cadastrarCliente() {
         return;
     }
 
-    fprintf(arquivo, "%d %s %s %s\n", novoCliente.codigo, novoCliente.nome, novoCliente.endereco, novoCliente.telefone);
+    fprintf(arquivo, "codigo do cliente: %d\n",novoCliente.codigo);
+    fprintf(arquivo, "nome do cliente: %s\n",novoCliente.nome);
+    fprintf(arquivo, "endereço do cliente: %s\n",novoCliente.endereco);
+    fprintf(arquivo, "telefone do cliente: %d\n",novoCliente.telefone);
     fclose(arquivo);
 
     printf("Cliente cadastrado com sucesso!\n");
@@ -127,7 +130,7 @@ void cadastrarCliente() {
 void cadastrarFuncionario() {
     FILE *arquivo;
     Funcionario novoFuncionario;
-    
+
     printf("Digite o código do funcionário: ");
     scanf("%d", &novoFuncionario.codigo);
 
@@ -135,7 +138,7 @@ void cadastrarFuncionario() {
     scanf("%s", novoFuncionario.nome);
 
     printf("Digite o telefone do funcionário: ");
-    scanf("%s", novoFuncionario.telefone);
+    scanf("%d", &novoFuncionario.telefone);
 
     printf("Digite o cargo do funcionário: ");
     scanf("%s", novoFuncionario.cargo);
@@ -147,20 +150,80 @@ void cadastrarFuncionario() {
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
-    }
+    }{
 
-    fprintf(arquivo, "%d %s %s %s %.2f\n", novoFuncionario.codigo, novoFuncionario.nome, novoFuncionario.telefone, novoFuncionario.cargo, novoFuncionario.salario);
+    fprintf(arquivo,"codigo do funcionario: %d\n",novoFuncionario.codigo);
+    fprintf(arquivo,"nome do funcionario: %s\n",novoFuncionario.nome);
+    fprintf(arquivo,"Telefone do funcionario: %d\n",novoFuncionario.telefone);
+    fprintf(arquivo,"Cargo do funcionario cadastrado: %s\n",novoFuncionario.cargo);
+    fprintf(arquivo,"Salario do funcionario: %f",novoFuncionario.salario);
     fclose(arquivo);
 
     printf("Funcionário cadastrado com sucesso!\n");
+    }
 }
 
 void cadastrarEstadia() {
-    // Implemente aqui o código para cadastrar uma estadia
-}
+
+        FILE *arquivo;
+        Estadia estadiaNovo;
+
+        printf("Digite o código de estadia: ");
+        scanf("%d", &estadiaNovo.codigo_estadia);
+
+        printf("Digite a data de entrada: ");
+        scanf("%s", estadiaNovo.data_entrada);
+
+        printf("Digite a data de saida: ");
+        scanf("%s", estadiaNovo.data_saida);
+
+        printf("Digite a quantidade de diarias: ");
+        scanf("%d", &estadiaNovo.quantidade_diarias);
+
+        printf("Digite o codigo do cliente: ");
+        scanf("%d", &estadiaNovo.codigo_cliente);
+
+        printf("Digite o numero do quarto: ");
+        scanf("%d", &estadiaNovo.numero_quarto);
+
+        arquivo = fopen("estadias_cadastro.txt", "a");
+        if(arquivo == NULL){
+            printf("Erro ao abrir o arquivo.\n");
+            return;
+        }
+
+        fprintf(arquivo,"codigo da estadia: %d\n",estadiaNovo.codigo_estadia);
+        fprintf(arquivo,"data de entrada: %s\n",estadiaNovo.data_entrada);
+        fprintf(arquivo,"data de saida: %s\n",estadiaNovo.data_saida);
+        fprintf(arquivo,"diarias: %d\n",estadiaNovo.quantidade_diarias);
+        fprintf(arquivo,"numero do quarto : %d",estadiaNovo.numero_quarto);
+        fclose(arquivo);
+    }
+
 
 void darBaixaEstadia() {
-    // Implemente aqui o código para dar baixa em uma estadia
+    FILE*arquivo;
+    Quarto baixaEstadia;
+
+    int diarias = 150;
+    baixaEstadia.valor_diaria = diarias * baixaEstadia.valor_diaria;
+
+    printf("Digite o numero do quarto: \n");
+    scanf("%d", &baixaEstadia.numero_quarto);
+
+    printf("Digite a quantidade de hospedes: \n");
+    scanf("%d",&baixaEstadia.quantidade_hospedes);
+
+
+    arquivo =fopen("baixa_Estadia.txt", "a");
+    if(arquivo == NULL){
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+    fprintf(arquivo, "Quarto %d\n",baixaEstadia.numero_quarto);
+    fprintf(arquivo, "Quantidade de hospedes: %d\n  ",baixaEstadia.quantidade_hospedes); //colocar o numero de diarias
+    fprintf(arquivo, "Valor total a ser pago : %d",baixaEstadia.valor_diaria);
+    fclose(arquivo);
 }
 
 // Implementação das funções de pesquisa
@@ -178,12 +241,12 @@ void pesquisarCliente() {
         return;
     }
 
-    while (fscanf(arquivo, "%d %s %s %s", &cliente.codigo, cliente.nome, cliente.endereco, cliente.telefone) != EOF) {
+    while (fscanf(arquivo, "%d %s %s %d", &cliente.codigo, cliente.nome, cliente.endereco, &cliente.telefone) != EOF) {
         if (cliente.codigo == codigoPesquisa) {
             printf("Código: %d\n", cliente.codigo);
             printf("Nome: %s\n", cliente.nome);
             printf("Endereço: %s\n", cliente.endereco);
-            printf("Telefone: %s\n", cliente.telefone);
+            printf("Telefone: %d\n", cliente.telefone);
             fclose(arquivo);
             return;
         }
@@ -205,18 +268,20 @@ void pesquisarFuncionario() {
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
-    }
+    }else{
 
-    while (fscanf(arquivo, "%d %s %s %s %f", &funcionario.codigo, funcionario.nome, funcionario.telefone, funcionario.cargo, &funcionario.salario) != EOF) {
+    while (fscanf(arquivo, "%d %s %d %s %f", &funcionario.codigo, funcionario.nome, &funcionario.telefone, funcionario.cargo, &funcionario.salario) != EOF) {
         if (funcionario.codigo == codigoPesquisa) {
             printf("Código: %d\n", funcionario.codigo);
             printf("Nome: %s\n", funcionario.nome);
-            printf("Telefone: %s\n", funcionario.telefone);
+            printf("Telefone: %d\n", funcionario.telefone);
             printf("Cargo: %s\n", funcionario.cargo);
             printf("Salário: %.2f\n", funcionario.salario);
             fclose(arquivo);
             return;
         }
+    }
+    
     }
 
     printf("Funcionário não encontrado.\n");
@@ -224,5 +289,33 @@ void pesquisarFuncionario() {
 }
 
 void pesquisarEstadiasCliente() {
-    // Implemente aqui o código para pesquisar estadias de um cliente
+    FILE *arquivo;
+    int codigoPesquisa;
+    Estadia estadia;
+
+    printf("Digite o código da estadia: ");
+    scanf("%d", &codigoPesquisa);
+
+    arquivo = fopen("estadias_cadastro.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }else{
+
+    while (fscanf(arquivo, "%d %s %s %d %d", &estadia.codigo_estadia, estadia.data_entrada, estadia.data_saida, &estadia.quantidade_diarias, &estadia.numero_quarto) != EOF) {
+        if (estadia.codigo_estadia == codigoPesquisa) {
+            printf("\n\nCódigo: %d\n",estadia.codigo_estadia);
+            printf("Data de entrada: %s\n",estadia.data_entrada);
+            printf("Data de saida: %s\n",estadia.data_saida);
+            printf("Quantidade de diarias: %d\n",estadia.quantidade_diarias);
+            printf("numero do quarto: %d\n",estadia.numero_quarto);
+            fclose(arquivo);
+            return;
+        }
+    }
+    
+    }
+
+    printf("Estadia não encontrado.\n");
+    fclose(arquivo);
 }
