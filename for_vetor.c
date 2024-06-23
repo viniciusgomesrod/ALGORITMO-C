@@ -6,7 +6,7 @@ int main() {
     int i;
     
     for(i = 0; i < 4; i++){
-        printf("%.1f\n", vet[i]);
+        printf("v[%d] = %.1f\n", i, vet[i]);
     }
     
     return 0;
